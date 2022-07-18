@@ -40,6 +40,16 @@
       let controlKeyPressed = false;
       let keyProcessed = false;
 
+      if (event.keyCode >= 48 && event.keyCode <= 57) {
+          const digit = event.keyCode - 48;
+          const count = instance.tribute.current.filteredItems.length;
+          if (digit < count) {
+              instance.callbacks()['Digit'](event, digit, this);
+              keyProcessed = true;
+              return;
+          }
+      }
+
       if (event instanceof KeyboardEvent) {
         TributeEvents.modifiers().forEach(o => {
           if (event.getModifierState(o)) {
@@ -211,6 +221,10 @@
           }
 
           this.tribute.hideMenu();
+        },
+        Digit: (e, digit, el) => {
+           this.setActiveLi(digit);
+           this.callbacks().Enter(e, el);
         },
         Enter: (e, _el) => {
           // choose selection
@@ -1402,6 +1416,7 @@
         } else {
           ul.innerHTML = "";
           const fragment = this.range.getDocument().createDocumentFragment();
+          var i = 0;
           items.forEach((item, index) => {
             const li = this.range.getDocument().createElement("li");
             li.setAttribute("data-index", index);
@@ -1414,7 +1429,8 @@
               li.classList.add(this.current.collection.selectClass);
             }
 
-            li.innerHTML = this.current.collection.menuItemTemplate(item);
+            li.innerHTML = i.toString() + ' ' + this.current.collection.menuItemTemplate(item);
+            i += 1
             fragment.appendChild(li);
           });
           ul.appendChild(fragment);
