@@ -246,13 +246,7 @@
           this.callbacks().Enter(e, el);
         },
         Space: (e, el) => {
-          if (this.tribute.isActive) {
-            if (this.tribute.spaceSelectsMatch) {
-              this.callbacks().Enter(e, el);
-            } else {
-              this.tribute.hideMenu();
-            }
-          }
+          this.tribute.hideMenu();
         },
         ArrowUp: (e, _el) => {
           // navigate up ul
